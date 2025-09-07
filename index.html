@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jekyll GET Processor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Jekyll GET Request Processor</h1>
+        <p class="text-gray-600 mb-8 text-center">
+            Enter a parameter below and the form will process a GET request and display the result on this page.
+        </p>
+        <div class="space-y-6">
+            <div class="relative">
+                <input type="text" id="queryInput" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out" placeholder="Enter a query parameter..." />
+            </div>
+            <button id="processButton" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 ease-in-out">
+                Process GET Request
+            </button>
+        </div>
+        
+        <div id="resultContainer" class="mt-8 p-6 bg-gray-50 rounded-lg border border-gray-200 hidden">
+            <h2 class="text-xl font-semibold text-gray-800 mb-3">Result:</h2>
+            <pre id="resultOutput" class="whitespace-pre-wrap break-words text-gray-700 text-sm bg-gray-100 p-4 rounded-md overflow-x-auto"></pre>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const queryInput = document.getElementById('queryInput');
+            const processButton = document.getElementById('processButton');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultOutput = document.getElementById('resultOutput');
+
+            processButton.addEventListener('click', () => {
+                const query = queryInput.value.trim();
+                
+                // Construct the URL with the GET parameter.
+                // In a real application, you would use a server-side endpoint.
+                // For this static Jekyll example, we'll simulate the response.
+                const url = new URL(window.location.href);
+                url.searchParams.set('query', query);
+                
+                // Simulate a GET request by processing the URL and displaying the parameter
+                const newUrl = url.toString();
+                const newParams = new URLSearchParams(newUrl.split('?')[1]);
+                const processedQuery = newParams.get('query');
+
+                if (processedQuery) {
+                    resultOutput.textContent = `The processed parameter is: "${processedQuery}"\n\nFull URL: ${newUrl}`;
+                    resultContainer.classList.remove('hidden');
+                } else {
+                    resultOutput.textContent = 'No query parameter found.';
+                    resultContainer.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
