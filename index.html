@@ -28,6 +28,25 @@
             <div class="relative">
                 <input type="text" id="queryInput" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 ease-in-out" placeholder="Enter a query parameter..." />
             </div>
+
+            <!-- Radio Button Group -->
+            <div class="flex items-center space-x-4">
+                <label class="flex items-center">
+                    <input type="radio" name="processingMethod" id="methodA" value="MethodA" class="mr-2 focus:ring-blue-500">
+                    Method A
+                </label>
+                <label class="flex items-center">
+                    <input type="radio" name="processingMethod" id="methodB" value="MethodB" class="mr-2 focus:ring-blue-500">
+                    Method B
+                </label>
+            </div>
+
+            <!-- Checkbox -->
+            <div class="flex items-center">
+                <input type="checkbox" id="enableFeature" class="mr-2 focus:ring-blue-500">
+                <label for="enableFeature" class="text-gray-700">Enable Feature</label>
+            </div>
+
             <button id="processButton" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 ease-in-out">
                 Process GET Request
             </button>
@@ -48,6 +67,12 @@
 
             processButton.addEventListener('click', () => {
                 const query = queryInput.value.trim();
+
+                // Get selected processing method
+                const processingMethod = document.querySelector('input[name="processingMethod"]:checked').value;
+
+                // Get checkbox state
+                const enableFeature = document.getElementById('enableFeature').checked;
                 
                 // Construct the URL with the GET parameter.
                 // In a real application, you would use a server-side endpoint.
@@ -61,7 +86,7 @@
                 const processedQuery = newParams.get('query');
 
                 if (processedQuery) {
-                    resultOutput.textContent = `The processed parameter is: "${processedQuery}"\n\nFull URL: ${newUrl}`;
+                    resultOutput.textContent = `The processed parameter is: "${processedQuery}"\nProcessing Method: ${processingMethod}\nFeature Enabled: ${enableFeature}\n\nFull URL: ${newUrl}`;
                     resultContainer.classList.remove('hidden');
                 } else {
                     resultOutput.textContent = 'No query parameter found.';
